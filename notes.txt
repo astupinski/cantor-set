@@ -1,0 +1,30 @@
+finitely need real numbers and postulates about them.
+
+we need sets of real numbers. you are going to use this.
+
+℘ A = A → Set
+
+set-of-reals = ℘ ℝ
+
+an interval defines a set of reals.
+
+interval (x,y) = { z | x < z < y }
+_∪_ : ℘ A → ℘ A → ℘ A
+X ∪ Y = (λ x → X x ∨ Y x)
+
+for intersection you use ∧
+
+now you can use ∪ and ℘ to define the nth cantor approximation
+
+real-set = ℝ → Set
+               ^^^
+               prop
+
+
+
+X : ℘ A
+X = { x | φ(x) }
+          ^
+          characteristic function
+          classically φ : A → 𝔹
+          less-classically we want φ : A → prop
