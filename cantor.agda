@@ -13,7 +13,7 @@ open import Basics002
 --{A : Set} → A → A
 --℘ A = A
 
-data set-of-reals (A : Set) : ℝ → Set where
+--data set-of-reals (A : Set) : ℝ → Set where
  -- ℘ : set-of-reals A Z
  -- _∷_ : ∀ {x} → A → set-of-reals A x → set-of-reals A (S x) 
 
@@ -39,7 +39,7 @@ _ : map (λ x → x + 5) [ 1 , 2 , 3 ] ≡ [ 6 , 7 , 8 ]
 _ = ↯
 
 mapᴾ : (ℝ → ℝ) → ℘ ℝ → ℘ ℝ
-mapᴾ f X = {!!}
+mapᴾ f (𝓅 φ) = 𝓅 λ x₀ → φ x₀
 
 C₀ : ℘ ℝ
 C₀ = interval-set ⟨ 𝕣 0 , 𝕣 1 ⟩
