@@ -1,3 +1,4 @@
+{-# OPTIONS --type-in-type #-}
 module cantor where
 
 open import Basics002 --reals, real postulates, power set, union/intersection
@@ -45,6 +46,27 @@ C (S n) =
 
 in-cantor : ℝ → Set
 in-cantor r = ∀ n → r ∈ C n
+
+cantor : ℘ ℝ
+cantor = 𝓅 $ \ r → in-cantor r
+
+-- 𝐼 = \itI
+intervals-measure : (ℕ → interval) → ℕ → ℝ
+intervals-measure 𝐼 Z = π₂ (𝐼 Z) -ʳ π₁ (𝐼 Z)
+intervals-measure 𝐼 (S n) = (π₂ (𝐼 (S n)) -ʳ π₁ (𝐼 (S n))) +ʳ intervals-measure 𝐼 n
+
+measure-is-at-most : ℝ → ℘ ℝ → Set
+measure-is-at-most r 𝒜 =
+  ∀ (ε : ℝ) → r <ᴿ ε
+  → ∃ 𝐼 ⦂ (ℕ → interval) ST
+    -- 1. A ⊆ ⋃ᵢ₌₁⸢∞⸣ 𝐼ᵢ
+    (∀ (x : ℝ) → x ∈ 𝒜 → ∃ n ⦂ ℕ ST x ∈ interval-set (𝐼 n))
+    ∧
+    -- 2. 
+    (∀ (n : ℕ) → intervals-measure 𝐼 n <ᴿ ε)
+
+THM1 : measure-is-at-most (𝕣 0) cantor
+THM1 = λ ε x → ⟨∃ (λ x₁ → ⟨ {!!} , {!!} ⟩) , ⟨ (λ x₁ x₂ → {!!}) , (λ n → {!!}) ⟩ ⟩
 
 --cantor set has measure zero (length zero)
 --C(infinity) = lim(n-> inf) (2/3)^n = 0
