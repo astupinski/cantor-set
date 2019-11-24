@@ -1,3 +1,4 @@
+{-# OPTIONS --type-in-type #-}
 module cantor where
 
 open import Basics002 --reals, real postulates, power set, union/intersection
@@ -46,15 +47,48 @@ C (S n) =
 in-cantor : ℝ → Set
 in-cantor r = ∀ n → r ∈ C n
 
+cantor : ℘ ℝ
+cantor = 𝓅 $ \ r → in-cantor r
+
+-- 𝐼 = \itI
+intervals-measure : (ℕ → interval) → ℕ → ℝ
+intervals-measure 𝐼 Z = π₂ (𝐼 Z) -ʳ π₁ (𝐼 Z)
+intervals-measure 𝐼 (S n) = (π₂ (𝐼 (S n)) -ʳ π₁ (𝐼 (S n))) +ʳ intervals-measure 𝐼 n
+
+measure-is-at-most : ℝ → ℘ ℝ → Set
+measure-is-at-most r 𝒜 =
+  ∀ (ε : ℝ) → r <ᴿ ε
+  → ∃ 𝐼 ⦂ (ℕ → interval) ST
+    -- 1. A ⊆ ⋃ᵢ₌₁⸢∞⸣ 𝐼ᵢ
+    (∀ (x : ℝ) → x ∈ 𝒜 → ∃ n ⦂ ℕ ST x ∈ interval-set (𝐼 n))
+    ∧
+    -- 2. 
+    (∀ (n : ℕ) → intervals-measure 𝐼 n <ᴿ ε)
+
+THM1 : measure-is-at-most (𝕣 0) cantor
+THM1 = λ ε x → ⟨∃ (λ x₁ → ⟨ {!!} , {!!} ⟩) , ⟨ (λ x₁ x₂ → {!!}) , (λ n → {!!}) ⟩ ⟩
+
 --cantor set has measure zero (length zero)
 --C(infinity) = lim(n-> inf) (2/3)^n = 0
-
+--length zero : has no intervals
+--to prove C (cantor set) has length zero, show that the length of the complement of C relative to [0,1] is 1
+--at the n step, we are removing 2^(n-1) intervals, all of which are of length 1/3^n
+--the sum of the length of all intervals removed is:
+--sum(2^(n-1)*(1/3^n) = 1
 
 
 --cantor set is uncountable/has infinite amount of point
 --(set is countable -- 1-1 correspondence with natural number)
 --(measure 0 = if the sum of the lengths of intervals enclosing all the points can be made arbitrarily small)
 --(cardinal number is larger than that of the set of all natural numbers)
+--to show cantor set is uncountable, construct a function f from the Cantor set C to the closed interval [0,1] that is surjective
+--consider the point in C in terms of base 3
+--we have that for any x = 0.a1a2..a3 in [0,1], x in C, iff an in {0,2} for all n in ℕ
+--construct function F: C → [0,1] which replaces all the 2s and 1s and interprets sequence as a binary representation of a real number.
+-- f( sum(ak*3^-k) )
+--for any number y in [0,1], its binary representation can be translated into a ternary representation of a number x in C by replacing
+--all the 1s by 2s, so the range of f is [0,1]. thus, the cardinality of C is greater than or equal to the cardinality of [0,1], which
+--means that C is uncountable 
 
 
 

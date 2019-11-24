@@ -1,0 +1,15 @@
+Starting point from last week: getting data types needed 
+
+goal from last week: creating the cantor set 
+
+what was accomplished: we have all data types and cantor set finalized and defined 
+
+who worked on what: we both worked to understand data types but did not accomplish much until meeting with you, thanks! Also, Vanessa proved the map! :) 
+
+what are we stuck on: logically defining measure zero and uncountable 
+
+what is still left to do: define and prove that the cantor set is measure zero and uncountable 
+
+goal for next week: prove measure zero
+
+fallback plan if we get stuck: come to your office hours lol
