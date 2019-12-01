@@ -66,7 +66,7 @@ measure-is-at-most r 𝒜 =
     (∀ (n : ℕ) → intervals-measure 𝐼 n <ᴿ ε)
 
 THM1 : measure-is-at-most (𝕣 0) cantor
-THM1 = λ ε x → ⟨∃ (λ x₁ → ⟨ (𝕣 0) , ε ⟩) , ⟨ (λ x₁ x₂ → ⟨∃ {!!} , ⟨ π₁ (x₂ Z) , {!!} ⟩ ⟩) , (λ n → {!!}) ⟩ ⟩
+THM1 = λ ε x → ⟨∃ (λ x₁ → ⟨ {!!} , {!!} ⟩) , ⟨ (λ x₁ x₂ → {!!}) , (λ n → {!!}) ⟩ ⟩
 
 --cantor set has measure zero (length zero)
 --C(infinity) = lim(n-> inf) (2/3)^n = 0
