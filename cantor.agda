@@ -31,7 +31,8 @@ mapᴾ f (𝓅 φ) = 𝓅 λ x₀ → φ x₀
 --cantor set declaration
 
 C₀ : ℘ ℝ
-C₀ = interval-set ⟨ 𝕣 0 , 𝕣 1 ⟩
+--C₀ = interval-set ⟨ 𝕣 0 , 𝕣 1 ⟩
+C₀ = interval-set zero-one
 
 C₁ : ℘ ℝ
 C₁ = mapᴾ (λ x → x /ʳ 𝕣 3) C₀ ⊍ mapᴾ (λ x → (x /ʳ 𝕣 3) +ʳ (𝕣 2 /ʳ 𝕣 3)) C₀
@@ -82,7 +83,6 @@ THM1 = λ ε ε<r →
       P₂ = {!!}
   in
   ⟨∃ n , ⟨∃ 𝐼 , ⟨ P₁ , P₂ ⟩ ⟩ ⟩
-
 
 --cantor set has measure zero (length zero)
 --C(infinity) = lim(n-> inf) (2/3)^n = 0
