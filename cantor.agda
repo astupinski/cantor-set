@@ -51,22 +51,37 @@ cantor : ℘ ℝ
 cantor = 𝓅 $ \ r → in-cantor r
 
 -- 𝐼 = \itI
-intervals-measure : (ℕ → interval) → ℕ → ℝ
-intervals-measure 𝐼 Z = π₂ (𝐼 Z) -ʳ π₁ (𝐼 Z)
-intervals-measure 𝐼 (S n) = (π₂ (𝐼 (S n)) -ʳ π₁ (𝐼 (S n))) +ʳ intervals-measure 𝐼 n
+-- OLD
+-- intervals-measure : (ℕ → interval) → ℕ → ℝ
+-- intervals-measure 𝐼 Z = π₂ (𝐼 Z) -ʳ π₁ (𝐼 Z)
+-- intervals-measure 𝐼 (S n) = (π₂ (𝐼 (S n)) -ʳ π₁ (𝐼 (S n))) +ʳ intervals-measure 𝐼 n
+
+intervals-measure : ∀ {n : ℕ} (𝐼 : vec[ n ] interval) → ℝ
+intervals-measure 𝐼 = {!!}
 
 measure-is-at-most : ℝ → ℘ ℝ → Set
 measure-is-at-most r 𝒜 =
   ∀ (ε : ℝ) → r <ᴿ ε
-  → ∃ 𝐼 ⦂ (ℕ → interval) ST
+  → ∃ n ⦂ ℕ ST
+    ∃ 𝐼 ⦂ vec[ n ] interval ST
     -- 1. A ⊆ ⋃ᵢ₌₁⸢∞⸣ 𝐼ᵢ
-    (∀ (x : ℝ) → x ∈ 𝒜 → ∃ n ⦂ ℕ ST x ∈ interval-set (𝐼 n))
+    (∀ (x : ℝ) → x ∈ 𝒜 → ∃ i ⦂ idx n ST x ∈ interval-set (𝐼 #[ i ]))
     ∧
-    -- 2. 
-    (∀ (n : ℕ) → intervals-measure 𝐼 n <ᴿ ε)
+    -- 2. |𝐼| < ε
+    (intervals-measure 𝐼 <ᴿ ε)
 
 THM1 : measure-is-at-most (𝕣 0) cantor
-THM1 = λ ε x → ⟨∃ (λ x₁ → ⟨ (𝕣 0) , (𝕣 1) ⟩) , ⟨ (λ x₁ x_cantor  → ⟨∃ Z , ⟨ {!!} , {!!} ⟩ ⟩) , (λ n → {!!}) ⟩ ⟩
+THM1 = λ ε ε<r →
+  let n : ℕ
+      n = {!!}
+      𝐼 : vec[ n ] interval
+      𝐼 = {!!} -- ⟨ (𝕣 0) , (𝕣 1) ⟩ -- not the right sequence
+      P₁ : ∀ (x : ℝ) → x ∈ cantor → ∃ i ⦂ idx n ST x ∈ interval-set (𝐼 #[ i ])
+      P₁ x₁ x_cantor = {!!} -- ⟨∃ Z , ⟨ {!!} , {!!} ⟩ ⟩
+      P₂ : intervals-measure 𝐼 <ᴿ ε
+      P₂ = {!!}
+  in
+  ⟨∃ n , ⟨∃ 𝐼 , ⟨ P₁ , P₂ ⟩ ⟩ ⟩
 
 
 --cantor set has measure zero (length zero)
