@@ -7,6 +7,9 @@ open import Basics002 --reals, real postulates, power set, union/intersection
 postulate
   _≤ᴿ_ : ℝ → ℝ → Set
   _<ᴿ_ : ℝ → ℝ → Set
+  _^ᴺ_ : ℕ → ℕ → ℕ
+
+  
 
 
 --data types
@@ -28,6 +31,14 @@ mapᴾ : (ℝ → ℝ) → ℘ ℝ → ℘ ℝ
 mapᴾ f (𝓅 φ) = 𝓅 λ x₀ → φ x₀
 
 
+--data log (A : ℕ) : ℕ → ℕ where
+--  [] : log A Z
+--  _∷_ : ? --∀ {n} → A → log A n → log A (S n)
+
+--log[_] : ℕ → ℕ → ℝ
+--log[ 10 ] n = log n
+
+
 --cantor set declaration
 
 C₀ : ℘ ℝ
@@ -42,6 +53,10 @@ C Z = C₀
 C (S n) =
   let Cₙ₋₁ = C n
   in mapᴾ (λ x → x /ʳ 𝕣 3) Cₙ₋₁ ⊍ mapᴾ (λ x → (x /ʳ 𝕣 3) +ʳ (𝕣 2 /ʳ 𝕣 3)) Cₙ₋₁
+
+C-interval : ∀ (n : ℕ) → vec[ 2 ^ᴺ n ] interval
+C-interval Z = {!!} -- ((𝕣 0) ∧ (𝕣 1))
+C-interval (S n) = {!!}
 
 --element in cantor set
 
@@ -58,11 +73,12 @@ cantor = 𝓅 $ \ r → in-cantor r
 -- intervals-measure 𝐼 (S n) = (π₂ (𝐼 (S n)) -ʳ π₁ (𝐼 (S n))) +ʳ intervals-measure 𝐼 n
 
 intervals-measure : ∀ {n : ℕ} (𝐼 : vec[ n ] interval) → ℝ
-intervals-measure 𝐼 = {!!}
+intervals-measure [] = (𝕣 1)
+intervals-measure {n} (x ∷ 𝐼) = ((𝕣 2)/ʳ(𝕣 3))^ʳ(𝕣 n) --write in terms of I?
 
 measure-is-at-most : ℝ → ℘ ℝ → Set
 measure-is-at-most r 𝒜 =
-  ∀ (ε : ℝ) → r <ᴿ ε
+  ∀ (ε : ℝ)  → r <ᴿ ε
   → ∃ n ⦂ ℕ ST
     ∃ 𝐼 ⦂ vec[ n ] interval ST
     -- 1. A ⊆ ⋃ᵢ₌₁⸢∞⸣ 𝐼ᵢ
@@ -72,13 +88,15 @@ measure-is-at-most r 𝒜 =
     (intervals-measure 𝐼 <ᴿ ε)
 
 THM1 : measure-is-at-most (𝕣 0) cantor
-THM1 = λ ε ε<r →
-  let n : ℕ
-      n = {!!}
+THM1 = λ ε r<ε →
+  let cantor-level : ℕ
+      cantor-level = {!!} --log(2/3)ε
+      n : ℕ
+      n = 2 ^ᴺ cantor-level
       𝐼 : vec[ n ] interval
-      𝐼 = {!!} -- ⟨ (𝕣 0) , (𝕣 1) ⟩ -- not the right sequence
+      𝐼 = C-interval cantor-level
       P₁ : ∀ (x : ℝ) → x ∈ cantor → ∃ i ⦂ idx n ST x ∈ interval-set (𝐼 #[ i ])
-      P₁ x₁ x_cantor = {!!} -- ⟨∃ Z , ⟨ {!!} , {!!} ⟩ ⟩
+      P₁ x₁ x_cantor = ⟨∃ {!!} , ⟨ {!!} , {!!} ⟩ ⟩
       P₂ : intervals-measure 𝐼 <ᴿ ε
       P₂ = {!!}
   in
