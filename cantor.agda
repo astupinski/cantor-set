@@ -54,9 +54,28 @@ C (S n) =
   let Cₙ₋₁ = C n
   in mapᴾ (λ x → x /ʳ 𝕣 3) Cₙ₋₁ ⊍ mapᴾ (λ x → (x /ʳ 𝕣 3) +ʳ (𝕣 2 /ʳ 𝕣 3)) Cₙ₋₁
 
+postulate
+  2^0≡1 : 2 ^ᴺ 0 ≡ 1
+  FACT1 : ∀ (n : ℕ) → 2 ^ᴺ (S n) ≡ (2 ^ᴺ n) + (2 ^ᴺ n)
+
+rewrite-dim : ∀ {A : Set} {n₁ n₂ : ℕ} → n₁ ≡ n₂ → vec[ n₂ ] A → vec[ n₁ ] A
+rewrite-dim ↯ xs = xs
+
 C-interval : ∀ (n : ℕ) → vec[ 2 ^ᴺ n ] interval
-C-interval Z = {!!} -- ((𝕣 0) ∧ (𝕣 1))
-C-interval (S n) = {!!}
+C-interval Z rewrite 2^0≡1 = [ ⟨ 𝕣 0 , 𝕣 1 ⟩ ]
+C-interval (S n) with C-interval n
+… | RC =
+  let RC₁ : vec[ 2 ^ᴺ n ] (ℝ ∧ ℝ)
+      -- TODO: fill in this interval
+      -- in the hole you want to build the “left” smaller interval based on the larger interval ⟨ lb , ub ⟩
+      -- e.g., if the larger interval is ⟨ 0 , 1 ⟩, you want to put ⟨ 0 , 1/3 ⟩ in the hole
+      RC₁ = map[vec] (λ where ⟨ lb , ub ⟩ → {!!}) RC
+      RC₂ : vec[ 2 ^ᴺ n ] (ℝ ∧ ℝ)
+      -- TODO: fill in this interval
+      -- in the hole you want to build the “right” smaller interval based on the larger interval ⟨ lb , ub ⟩
+      -- e.g., if the larger interval is ⟨ 0 , 1 ⟩, you want to put ⟨ 2/3 , 1 ⟩ in the hole
+      RC₂ = map[vec] (λ where ⟨ lb , ub ⟩ → {!!}) RC
+  in rewrite-dim (FACT1 n) (RC₁ ⧻ RC₂)
 
 --element in cantor set
 
@@ -87,17 +106,24 @@ measure-is-at-most r 𝒜 =
     -- 2. |𝐼| < ε
     (intervals-measure 𝐼 <ᴿ ε)
 
+postulate
+  ㏒[_]_ : ℝ → ℝ → ℝ
+  -- often notated as ⌈_⌉    \tL and \tR
+  ceil : ℝ → ℕ
+
 THM1 : measure-is-at-most (𝕣 0) cantor
 THM1 = λ ε r<ε →
   let cantor-level : ℕ
-      cantor-level = {!!} --log(2/3)ε
+      cantor-level = ceil (㏒[ 𝕣 2 /ʳ 𝕣 3 ] ε) --⌈log(2/3)ε⌉
       n : ℕ
       n = 2 ^ᴺ cantor-level
       𝐼 : vec[ n ] interval
       𝐼 = C-interval cantor-level
       P₁ : ∀ (x : ℝ) → x ∈ cantor → ∃ i ⦂ idx n ST x ∈ interval-set (𝐼 #[ i ])
+      -- TODO: write in english here why this is true
       P₁ x₁ x_cantor = ⟨∃ {!!} , ⟨ {!!} , {!!} ⟩ ⟩
       P₂ : intervals-measure 𝐼 <ᴿ ε
+      -- TODO: write in english here why this is true
       P₂ = {!!}
   in
   ⟨∃ n , ⟨∃ 𝐼 , ⟨ P₁ , P₂ ⟩ ⟩ ⟩
