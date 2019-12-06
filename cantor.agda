@@ -57,7 +57,7 @@ C (S n) =
   in mapᴾ (λ x → x /ʳ 𝕣 3) Cₙ₋₁ ⊍ mapᴾ (λ x → (x /ʳ 𝕣 3) +ʳ (𝕣 2 /ʳ 𝕣 3)) Cₙ₋₁
 
 C-interval : ∀ (n : ℕ) → vec[ 2 ^ᴺ n ] interval
-C-interval Z = {!!} -- ((𝕣 0) ∧ (𝕣 1))
+C-interval Z = {!!} -- ((𝕣 0) ∧ (𝕣 1)) 1
 C-interval (S n) = {!!}
 
 --element in cantor set
@@ -82,7 +82,7 @@ measure-is-at-most : ℝ → ℘ ℝ → Set
 measure-is-at-most r 𝒜 =
   ∀ (ε : ℝ)  → r <ᴿ ε
   → ∃ n ⦂ ℕ ST
-    ∃ 𝐼 ⦂ vec[ n ] interval ST
+    ∃ 𝐼 ⦂ vec[ n ] interval ST --vector of intervals in cantor set
     -- 1. A ⊆ ⋃ᵢ₌₁⸢∞⸣ 𝐼ᵢ: Cantor set is a subset of the union of intervals
     (∀ (x : ℝ) → x ∈ 𝒜 → ∃ i ⦂ idx n ST x ∈ interval-set (𝐼 #[ i ]))
     ∧
@@ -92,9 +92,9 @@ measure-is-at-most r 𝒜 =
 THM1 : measure-is-at-most (𝕣 0) cantor
 THM1 = λ ε r<ε →
   let cantor-level : ℕ
-      cantor-level = {!log[(2/3)]!} --log(2/3)ε
+      cantor-level = {!!} --log(2/3)ε
       n : ℕ
-      n = 2 ^ᴺ cantor-level --number of intervals at iteration n
+      n = 2 ^ᴺ cantor-level --number of intervals at iteration cantor level
       𝐼 : vec[ n ] interval
       𝐼 = C-interval cantor-level
       P₁ : ∀ (x : ℝ) → x ∈ cantor → ∃ i ⦂ idx n ST x ∈ interval-set (𝐼 #[ i ])
@@ -103,6 +103,20 @@ THM1 = λ ε r<ε →
       P₂ = {!!}
   in
   ⟨∃ n , ⟨∃ 𝐼 , ⟨ P₁ , P₂ ⟩ ⟩ ⟩
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 --cantor set has measure zero (length zero)
 --C(infinity) = lim(n-> inf) (2/3)^n = 0
@@ -125,16 +139,6 @@ THM1 = λ ε r<ε →
 --for any number y in [0,1], its binary representation can be translated into a ternary representation of a number x in C by replacing
 --all the 1s by 2s, so the range of f is [0,1]. thus, the cardinality of C is greater than or equal to the cardinality of [0,1], which
 --means that C is uncountable 
-
-
-
-
-
-
-
-
-
-
 
 
 
