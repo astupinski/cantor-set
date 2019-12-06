@@ -68,15 +68,9 @@ C-interval Z rewrite 2^0≡1 = [ ⟨ 𝕣 0 , 𝕣 1 ⟩ ]
 C-interval (S n) with C-interval n
 … | RC =
   let RC₁ : vec[ 2 ^ᴺ n ] (ℝ ∧ ℝ)
-      -- TODO: fill in this interval
-      -- in the hole you want to build the “left” smaller interval based on the larger interval ⟨ lb , ub ⟩
-      -- e.g., if the larger interval is ⟨ 0 , 1 ⟩, you want to put ⟨ 0 , 1/3 ⟩ in the hole
-      RC₁ = map[vec] (λ where ⟨ lb , ub ⟩ → {!!}) RC
+      RC₁ = map[vec] (λ where ⟨ lb , ub ⟩ → ⟨ lb , (((𝕣 1 /ʳ 𝕣 3) ×ʳ (ub -ʳ lb))) +ʳ lb ⟩) RC
       RC₂ : vec[ 2 ^ᴺ n ] (ℝ ∧ ℝ)
-      -- TODO: fill in this interval
-      -- in the hole you want to build the “right” smaller interval based on the larger interval ⟨ lb , ub ⟩
-      -- e.g., if the larger interval is ⟨ 0 , 1 ⟩, you want to put ⟨ 2/3 , 1 ⟩ in the hole
-      RC₂ = map[vec] (λ where ⟨ lb , ub ⟩ → {!!}) RC
+      RC₂ = map[vec] (λ where ⟨ lb , ub ⟩ → ⟨ ((((𝕣 2 /ʳ 𝕣 3) ×ʳ (ub -ʳ lb)))) +ʳ lb , ub ⟩) RC
   in rewrite-dim (FACT1 n) (RC₁ ⧻ RC₂)
 
 --element in cantor set
@@ -101,7 +95,7 @@ measure-is-at-most : ℝ → ℘ ℝ → Set
 measure-is-at-most r 𝒜 =
   ∀ (ε : ℝ)  → r <ᴿ ε
   → ∃ n ⦂ ℕ ST
-    ∃ 𝐼 ⦂ vec[ n ] interval ST
+    ∃ 𝐼 ⦂ vec[ n ] interval ST --vector of intervals in cantor set
     -- 1. A ⊆ ⋃ᵢ₌₁⸢∞⸣ 𝐼ᵢ: Cantor set is a subset of the union of intervals
     (∀ (x : ℝ) → x ∈ 𝒜 → ∃ i ⦂ idx n ST x ∈ interval-set (𝐼 #[ i ]))
     ∧
@@ -118,17 +112,33 @@ THM1 = λ ε r<ε →
   let cantor-level : ℕ
       cantor-level = ceil (㏒[ 𝕣 2 /ʳ 𝕣 3 ] ε) --⌈log(2/3)ε⌉
       n : ℕ
-      n = 2 ^ᴺ cantor-level --number of intervals at iteration n
+      n = 2 ^ᴺ cantor-level --number of intervals at iteration cantor level
       𝐼 : vec[ n ] interval
       𝐼 = C-interval cantor-level
       P₁ : ∀ (x : ℝ) → x ∈ cantor → ∃ i ⦂ idx n ST x ∈ interval-set (𝐼 #[ i ])
-      -- TODO: write in english here why this is true
+      --since we have assumed that x is in the cantor set, 𝐼 is a vector of the intervals in the nth iteration of the cantor set,
+      --and i indexes into an interval of the cantor set, then for all x in the cantor set, x is contained within an interval of 𝐼
       P₁ x₁ x_cantor = ⟨∃ {!!} , ⟨ {!!} , {!!} ⟩ ⟩
       P₂ : intervals-measure 𝐼 <ᴿ ε
-      -- TODO: write in english here why this is true
+      -- since the intervals-measure is ((𝕣 2)/ʳ(𝕣 3))^ʳ(𝕣 n) where n =  2 ^ᴺ cantor-level,
+      --when the cantor-level is very large, the intervals-measure goes to 0 which agrees with our assumption that 0<ε
       P₂ = {!!}
   in
   ⟨∃ n , ⟨∃ 𝐼 , ⟨ P₁ , P₂ ⟩ ⟩ ⟩
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 --cantor set has measure zero (length zero)
 --C(infinity) = lim(n-> inf) (2/3)^n = 0
@@ -151,16 +161,6 @@ THM1 = λ ε r<ε →
 --for any number y in [0,1], its binary representation can be translated into a ternary representation of a number x in C by replacing
 --all the 1s by 2s, so the range of f is [0,1]. thus, the cardinality of C is greater than or equal to the cardinality of [0,1], which
 --means that C is uncountable 
-
-
-
-
-
-
-
-
-
-
 
 
 
