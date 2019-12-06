@@ -56,9 +56,22 @@ C (S n) =
   let Cₙ₋₁ = C n
   in mapᴾ (λ x → x /ʳ 𝕣 3) Cₙ₋₁ ⊍ mapᴾ (λ x → (x /ʳ 𝕣 3) +ʳ (𝕣 2 /ʳ 𝕣 3)) Cₙ₋₁
 
+postulate
+  2^0≡1 : 2 ^ᴺ 0 ≡ 1
+  FACT1 : ∀ (n : ℕ) → 2 ^ᴺ (S n) ≡ (2 ^ᴺ n) + (2 ^ᴺ n)
+
+rewrite-dim : ∀ {A : Set} {n₁ n₂ : ℕ} → n₁ ≡ n₂ → vec[ n₂ ] A → vec[ n₁ ] A
+rewrite-dim ↯ xs = xs
+
 C-interval : ∀ (n : ℕ) → vec[ 2 ^ᴺ n ] interval
-C-interval Z = {!!} -- ((𝕣 0) ∧ (𝕣 1)) 1
-C-interval (S n) = {!!}
+C-interval Z rewrite 2^0≡1 = [ ⟨ 𝕣 0 , 𝕣 1 ⟩ ]
+C-interval (S n) with C-interval n
+… | RC =
+  let RC₁ : vec[ 2 ^ᴺ n ] (ℝ ∧ ℝ)
+      RC₁ = map[vec] (λ where ⟨ lb , ub ⟩ → ⟨ lb , (((𝕣 1 /ʳ 𝕣 3) ×ʳ (ub -ʳ lb))) +ʳ lb ⟩) RC
+      RC₂ : vec[ 2 ^ᴺ n ] (ℝ ∧ ℝ)
+      RC₂ = map[vec] (λ where ⟨ lb , ub ⟩ → ⟨ ((((𝕣 2 /ʳ 𝕣 3) ×ʳ (ub -ʳ lb)))) +ʳ lb , ub ⟩) RC
+  in rewrite-dim (FACT1 n) (RC₁ ⧻ RC₂)
 
 --element in cantor set
 
@@ -89,17 +102,26 @@ measure-is-at-most r 𝒜 =
     -- 2. |𝐼| < ε: the summation of the length of each interval is less than epsilon
     (intervals-measure 𝐼 <ᴿ ε)
 
+postulate
+  ㏒[_]_ : ℝ → ℝ → ℝ
+  -- often notated as ⌈_⌉    \tL and \tR
+  ceil : ℝ → ℕ
+
 THM1 : measure-is-at-most (𝕣 0) cantor
 THM1 = λ ε r<ε →
   let cantor-level : ℕ
-      cantor-level = {!!} --log(2/3)ε
+      cantor-level = ceil (㏒[ 𝕣 2 /ʳ 𝕣 3 ] ε) --⌈log(2/3)ε⌉
       n : ℕ
       n = 2 ^ᴺ cantor-level --number of intervals at iteration cantor level
       𝐼 : vec[ n ] interval
       𝐼 = C-interval cantor-level
       P₁ : ∀ (x : ℝ) → x ∈ cantor → ∃ i ⦂ idx n ST x ∈ interval-set (𝐼 #[ i ])
+      --since we have assumed that x is in the cantor set, 𝐼 is a vector of the intervals in the nth iteration of the cantor set,
+      --and i indexes into an interval of the cantor set, then for all x in the cantor set, x is contained within an interval of 𝐼
       P₁ x₁ x_cantor = ⟨∃ {!!} , ⟨ {!!} , {!!} ⟩ ⟩
       P₂ : intervals-measure 𝐼 <ᴿ ε
+      -- since the intervals-measure is ((𝕣 2)/ʳ(𝕣 3))^ʳ(𝕣 n) where n =  2 ^ᴺ cantor-level,
+      --when the cantor-level is very large, the intervals-measure goes to 0 which agrees with our assumption that 0<ε
       P₂ = {!!}
   in
   ⟨∃ n , ⟨∃ 𝐼 , ⟨ P₁ , P₂ ⟩ ⟩ ⟩
