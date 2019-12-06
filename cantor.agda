@@ -8,8 +8,7 @@ postulate
   _≤ᴿ_ : ℝ → ℝ → Set
   _<ᴿ_ : ℝ → ℝ → Set
   _^ᴺ_ : ℕ → ℕ → ℕ
-
-  
+  --log[_] :  ℕ → ℕ → ℝ
 
 
 --data types
@@ -31,13 +30,16 @@ mapᴾ : (ℝ → ℝ) → ℘ ℝ → ℘ ℝ
 mapᴾ f (𝓅 φ) = 𝓅 λ x₀ → φ x₀
 
 
---data log (A : ℕ) : ℕ → ℕ where
---  [] : log A Z
---  _∷_ : ? --∀ {n} → A → log A n → log A (S n)
+--data log (b : ℕ) : ℕ → Set where
+--  [] : log b Z
+--  _∷_ : ∀ {n : ℕ} → log b n → log b (S n)
 
---log[_] : ℕ → ℕ → ℝ
---log[ 10 ] n = log n
+--log[_] : ℕ → Set → ℕ
+--log[ b ] n = log b n
 
+--log[_] : Nat → Nat
+--log[] 1 = Z
+--log[] (succ n) = ?
 
 --cantor set declaration
 
@@ -100,10 +102,10 @@ measure-is-at-most r 𝒜 =
   ∀ (ε : ℝ)  → r <ᴿ ε
   → ∃ n ⦂ ℕ ST
     ∃ 𝐼 ⦂ vec[ n ] interval ST
-    -- 1. A ⊆ ⋃ᵢ₌₁⸢∞⸣ 𝐼ᵢ
+    -- 1. A ⊆ ⋃ᵢ₌₁⸢∞⸣ 𝐼ᵢ: Cantor set is a subset of the union of intervals
     (∀ (x : ℝ) → x ∈ 𝒜 → ∃ i ⦂ idx n ST x ∈ interval-set (𝐼 #[ i ]))
     ∧
-    -- 2. |𝐼| < ε
+    -- 2. |𝐼| < ε: the summation of the length of each interval is less than epsilon
     (intervals-measure 𝐼 <ᴿ ε)
 
 postulate
@@ -116,7 +118,7 @@ THM1 = λ ε r<ε →
   let cantor-level : ℕ
       cantor-level = ceil (㏒[ 𝕣 2 /ʳ 𝕣 3 ] ε) --⌈log(2/3)ε⌉
       n : ℕ
-      n = 2 ^ᴺ cantor-level
+      n = 2 ^ᴺ cantor-level --number of intervals at iteration n
       𝐼 : vec[ n ] interval
       𝐼 = C-interval cantor-level
       P₁ : ∀ (x : ℝ) → x ∈ cantor → ∃ i ⦂ idx n ST x ∈ interval-set (𝐼 #[ i ])
